@@ -1,0 +1,133 @@
+<!-- greeting-card.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Raksha Bandhan Greeting Card</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Georgia', serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #b71c1c;
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    #card {
+      background-color: #ffe0e0;
+      padding: 20px;
+      width: 350px;
+      margin: auto;
+      border: 4px solid #c2185b;
+      border-radius: 12px;
+    }
+
+    textarea {
+      width: 90%;
+      height: 100px;
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 1rem;
+      border: 2px solid #e91e63;
+      border-radius: 8px;
+    }
+
+    #photoPreview {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      margin-top: 10px;
+      object-fit: cover;
+      border: 2px solid #d81b60;
+      border-radius: 8px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 8px 20px;
+      font-size: 1rem;
+      background-color: #f48fb1;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    input[type="file"] {
+      margin-top: 10px;
+    }
+  </style>
+  <nav style="text-align:center; margin: 20px 0;">
+  <a href="index.html">🏠 Home</a> |
+  <a href="greeting-card.html">🎁 Greeting Card</a> |
+  <a href="animated-message.html">💌 Message Page</a>
+</nav>
+
+</head>
+<body style="background-image: url('images/rakhi-bg.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+
+
+  <h1>🎁 Create Your Greeting Card</h1>
+
+  <div id="card">
+    <input type="file" id="photoInput" accept="image/*" />
+    <img id="photoPreview" src="" alt="Your Image" />
+
+    <textarea id="messageText" placeholder="Write your Raksha Bandhan message here..."></textarea>
+
+    <button onclick="downloadCardPDF()">Download as PDF</button>
+  </div>
+
+  <script>
+    const photoInput = document.getElementById('photoInput');
+    const photoPreview = document.getElementById('photoPreview');
+
+    photoInput.addEventListener('change', function () {
+      const file = photoInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          photoPreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    async function downloadCardPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Greeting
+      doc.setFont('times', 'bold');
+      doc.setTextColor(183, 28, 28);
+      doc.setFontSize(18);
+      doc.text('Happy Raksha Bandhan!', 60, 20);
+
+      // Image
+      const imgData = photoPreview.src;
+      if (imgData && imgData.startsWith("data:image")) {
+        doc.addImage(imgData, 'JPEG', 20, 30, 170, 80);
+      }
+
+      // Message
+      const message = document.getElementById('messageText').value;
+      doc.setFontSize(12);
+      doc.setTextColor(66, 66, 66);
+      const splitMsg = doc.splitTextToSize(message, 170);
+      doc.text(splitMsg, 20, 120);
+
+      doc.save("rakhi_greeting_card.pdf");
+    }
+  </script>
+<footer style="text-align:center; margin-top:40px;">
+  <p>&copy; 2025 Made with ❤️ for Raksha Bandhan</p>
+</footer>
+
+</body>
+</html>

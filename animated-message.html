@@ -1,0 +1,80 @@
+<!-- animated-message.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Raksha Bandhan Message</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      font-family: 'Georgia', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #64319d;
+    }
+
+    .message-box {
+      max-width: 90%;
+      padding: 40px;
+      border: 3px dashed #880e4f;
+      border-radius: 20px;
+      background-color: #fff0f5;
+      text-align: center;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+    }
+
+    #animatedText {
+      font-size: 1.5rem;
+      border-right: 2px solid #880e4f;
+      white-space: nowrap;
+      overflow: hidden;
+      margin: 0 auto;
+      max-width: 600px;
+    }
+  </style>
+  <nav style="text-align:center; margin: 20px 0;">
+  <a href="index.html">🏠 Home</a> |
+  <a href="greeting-card.html">🎁 Greeting Card</a> |
+  <a href="animated-message.html">💌 Message Page</a>
+</nav>
+
+
+</head>
+<body style="background-image: url('https://img.freepik.com/premium-photo/cheerful-indian-brother-sister-exchanging-gift-box-raksha-bandhan-festival_46383-5984.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+
+  <div class="message-box">
+    <h1>💖 Special Message for Behena 💖</h1>
+    <div id="animatedText"></div>
+  </div>
+
+  <script>
+    const message = "Tere pyaar ki rakhi, meri har jeet ki wajah hai.";
+    let i = 0;
+    const speed = 60;
+
+    function typeEffect() {
+      if (i < message.length) {
+        document.getElementById("animatedText").textContent += message.charAt(i);
+        i++;
+        setTimeout(typeEffect, speed);
+      }
+    }
+
+    window.onload = typeEffect;
+  </script>
+  <footer style="text-align:center; margin-top:40px;">
+  <p>&copy; 2025 Made with ❤️ for Raksha Bandhan</p>
+</footer>
+
+</body>
+</html>

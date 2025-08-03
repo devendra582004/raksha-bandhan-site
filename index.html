@@ -1,0 +1,147 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raksha Bandhan Special</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fffaf0;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1, h2 {
+      color: #c2185b;
+    }
+
+    #toggleMusic {
+      padding: 8px 15px;
+      margin-bottom: 20px;
+      background-color: #f8bbd0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #frameCanvas {
+      margin-top: 10px;
+      border: 2px solid #e91e63;
+    }
+
+    #typewriterText {
+      font-size: 1.3rem;
+      border-right: 2px solid;
+      white-space: nowrap;
+      overflow: hidden;
+      width: fit-content;
+      margin: 30px auto;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: black; }
+    }
+  </style>
+  <nav style="text-align:center; margin: 20px 0;">
+  <a href="index.html">🏠 Home</a> |
+  <a href="greeting-card.html">🎁 Greeting Card</a> |
+  <a href="animated-message.html">💌 Message Page</a>
+</nav>
+
+</head>
+<body style="background-image: url('https://img.freepik.com/premium-photo/indian-siblings-celebrate-raksha-bandhan-exchanging-gifts-sweets_875825-158299.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+
+  <h1>🎉 Happy Raksha Bandhan 🎉</h1>
+
+  <!-- 🎵 Background Music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://pagalworldmusic.com/download.php?title=Dhaagon+Se+Baandhaa-320kbps&path=downloads%2Fhigh%2FKS4dBz9Eeno%2FKS4dBz9Eeno.mp3" type="audio/mpeg" />
+    Your browser does not support audio.
+  </audio>
+  <button id="toggleMusic">🔊 Mute Music</button>
+
+  <!-- 🖼️ Photo Frame Generator -->
+  <h2>📸 Add Rakhi Frame to Your Photo</h2>
+  <input type="file" id="uploadImage" accept="image/*" />
+  <br />
+  <canvas id="frameCanvas" width="300" height="300"></canvas>
+  <br />
+  <button onclick="downloadFramedImage()">Download Framed Photo</button>
+
+  <!-- 💌 Animated Message -->
+  <h2>💌 Message from Brother</h2>
+  <p id="typewriterText"></p>
+
+  <script>
+    // 🎵 Background Music Control
+    const music = document.getElementById('bgMusic');
+    const toggleBtn = document.getElementById('toggleMusic');
+
+    toggleBtn.addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        toggleBtn.textContent = '🔊 Mute Music';
+      } else {
+        music.pause();
+        toggleBtn.textContent = '🔇 Unmute Music';
+      }
+    });
+
+    // 🖼️ Rakhi Frame Generator
+    const uploadImage = document.getElementById("uploadImage");
+    const canvas = document.getElementById("frameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    uploadImage.addEventListener("change", function () {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const img = new Image();
+        img.onload = function () {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, 300, 300);
+
+          const frame = new Image();
+          frame.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA...your_full_base64_here..."; // Paste full base64
+          frame.onload = function () {
+            ctx.drawImage(frame, 0, 0, 300, 300);
+          };
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(uploadImage.files[0]);
+    });
+
+    function downloadFramedImage() {
+      const link = document.createElement('a');
+      link.download = 'rakhi_framed_photo.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+
+    // 💌 Typewriter Message
+    const msg = "Dear Sister, you're my forever friend, my strength, and my sweetest bond—Happy Raksha Bandhan!";
+    let index = 0;
+    const speed = 50;
+
+    function typeWriter() {
+      if (index < msg.length) {
+        document.getElementById("typewriterText").textContent += msg.charAt(index);
+        index++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+
+    window.onload = typeWriter;
+  </script>
+  <footer style="text-align:center; margin-top:40px;">
+  <p>&copy; 2025 Made with ❤️ for Raksha Bandhan</p>
+</footer>
+
+</body>
+</html>
+

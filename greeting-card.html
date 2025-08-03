@@ -1,0 +1,117 @@
+<!-- greeting-card.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Raksha Bandhan Greeting Card</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #fff0f5;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 20px;
+      margin: auto;
+      width: 350px;
+      border: 2px dashed #e91e63;
+      border-radius: 10px;
+    }
+
+    h2 {
+      color: #d81b60;
+    }
+
+    input, button {
+      padding: 8px;
+      margin: 10px;
+    }
+
+    #greetingPreview {
+      margin-top: 20px;
+    }
+
+    #cardCanvas {
+      border: 1px solid #ccc;
+      margin-top: 15px;
+    }
+  </style>
+  <link rel="stylesheet" href="custom-frame-style.css" />
+  <nav style="text-align:center; margin: 20px 0;">
+  <a href="index.html">🏠 Home</a> |
+  <a href="greeting-card.html">🎁 Greeting Card</a> |
+  <a href="animated-message.html">💌 Message Page</a>
+  </nav>
+
+</head>
+<body style="background-image: url('https://img.freepik.com/premium-vector/happy-raksha-bandhan-greeting-card_124963-4.jpg?w=1060'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+
+  <h2>🌸 Raksha Bandhan Greeting Card 🌸</h2>
+  
+  <div class="card">
+    <input type="text" id="sisterName" placeholder="Brother's Name" />
+    <input type="text" id="brotherName" placeholder="Sister's Name" />
+    <input type="file" id="photoUpload" accept="image/*" />
+    <canvas id="cardCanvas" width="300" height="400"></canvas>
+    <br>
+    <button onclick="generateCard()">🎁 Generate Card</button>
+    <button onclick="downloadPDF()">⬇️ Download as PDF</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('cardCanvas');
+    const ctx = canvas.getContext('2d');
+    let uploadedImg = null;
+
+    document.getElementById('photoUpload').addEventListener('change', function () {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          uploadedImg = img;
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(this.files[0]);
+    });
+
+    function generateCard() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#fff8f0";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (uploadedImg) ctx.drawImage(uploadedImg, 75, 20, 150, 150);
+
+      ctx.fillStyle = "#d81b60";
+      ctx.font = "18px Georgia";
+      ctx.fillText("Happy Raksha Bandhan!", 40, 200);
+
+      const bro = document.getElementById("brotherName").value;
+      const sis = document.getElementById("sisterName").value;
+
+      ctx.fillStyle = "#333";
+      ctx.font = "16px serif";
+      ctx.fillText(`To: ${bro}`, 40, 240);
+      ctx.fillText(`From: ${sis}`, 40, 270);
+      ctx.font = "14px serif";
+      ctx.fillText("With love and blessings 💖", 40, 310);
+    }
+
+    function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+      const imgData = canvas.toDataURL("image/jpeg", 1.0);
+      pdf.addImage(imgData, 'JPEG', 10, 10, 190, 250);
+      pdf.save("rakhi_greeting_card.pdf");
+    }
+  </script>
+  <footer style="text-align:center; margin-top:40px;">
+  <p>&copy; 2025 Made with ❤️ for Raksha Bandhan</p>
+</footer>
+
+</body>
+</html>
